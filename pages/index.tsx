@@ -1,6 +1,10 @@
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
+import { useWallet } from '@solana/wallet-adapter-react'
 import type { NextPage } from 'next'
 
 const Home: NextPage = () => {
+  const { publicKey } = useWallet()
+
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden">
@@ -11,9 +15,14 @@ const Home: NextPage = () => {
           <p className="mt-2 text-gray-500">
             Connect your wallet and start swapping tokens
           </p>
-          <button className="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
-            Connect Wallet
-          </button>
+          <div className="mt-4">
+            <WalletMultiButton />
+          </div>
+          {publicKey && (
+            <p className="mt-4 text-sm text-gray-600">
+              Connected: {publicKey.toBase58().slice(0, 8)}...
+            </p>
+          )}
         </div>
       </div>
     </div>
