@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { config } from './config';
 
 export interface JupiterQuote {
   inputMint: string;
@@ -21,7 +22,8 @@ export interface JupiterSwapResponse {
   swapTransaction: string;
 }
 
-const JUPITER_API_BASE = 'https://quote-api.jup.ag/v6';
+const API_BASE = config.jupiter.apiBase;
+const DEFAULT_SLIPPAGE = config.jupiter.defaultSlippageBps;
 
 export const jupiterService = {
   /**
@@ -31,9 +33,9 @@ export const jupiterService = {
     inputMint: string,
     outputMint: string,
     amount: string,
-    slippageBps: number = 50
+    slippageBps: number = DEFAULT_SLIPPAGE
   ): Promise<JupiterQuote> {
-    const response = await axios.get(`${JUPITER_API_BASE}/quote`, {
+    const response = await axios.get(`${API_BASE}/quote`, {
       params: {
         inputMint,
         outputMint,
@@ -54,7 +56,7 @@ export const jupiterService = {
     wrapAndUnwrapSol: boolean = true,
     feeAccount?: string
   ): Promise<JupiterSwapResponse> {
-    const response = await axios.post(`${JUPITER_API_BASE}/swap`, {
+    const response = await axios.post(`${API_BASE}/swap`, {
       quoteResponse,
       userPublicKey,
       wrapAndUnwrapSol,

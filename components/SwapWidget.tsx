@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useJupiter } from '../hooks/useJupiter';
+import { config } from '../lib/config';
+
+const TOKEN_LIST = config.app.supportedTokens;
 
 const SwapWidget: React.FC = () => {
   const { publicKey } = useWallet();
@@ -8,7 +11,7 @@ const SwapWidget: React.FC = () => {
 
   const [inputMint, setInputMint] = useState('So11111111111111111111111111111111111111112'); // SOL
   const [outputMint, setOutputMint] = useState('EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v'); // USDC
-  const [amount, setAmount] = useState('100000000'); // 0.1 SOL
+  const [amount, setAmount] = useState('1000000'); // 0.001 SOL
 
   const handleGetQuote = async () => {
     if (inputMint && outputMint && amount) {
@@ -46,11 +49,15 @@ const SwapWidget: React.FC = () => {
             padding: '8px',
             marginTop: '5px',
             border: '1px solid #ccc',
-            borderRadius: '4px'
+            borderRadius: '4px',
+            fontSize: '14px'
           }}
         >
-          <option value="So11111111111111111111111111111111111111112">SOL</option>
-          <option value="EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v">USDC</option>
+          {TOKEN_LIST.map((token) => (
+            <option key={token.mint} value={token.mint}>
+              {token.symbol}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -64,11 +71,15 @@ const SwapWidget: React.FC = () => {
             padding: '8px',
             marginTop: '5px',
             border: '1px solid #ccc',
-            borderRadius: '4px'
+            borderRadius: '4px',
+            fontSize: '14px'
           }}
         >
-          <option value="So11111111111111111111111111111111111111112">SOL</option>
-          <option value="EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v">USDC</option>
+          {TOKEN_LIST.map((token) => (
+            <option key={token.mint} value={token.mint}>
+              {token.symbol}
+            </option>
+          ))}
         </select>
       </div>
 
